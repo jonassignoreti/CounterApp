@@ -1,20 +1,36 @@
+import React, { useState } from 'react';
+import { StyleSheet, Text, SafeAreaView, Button } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
+  const [ number, setNumber ] = useState(0)
+
+  const inc = () => setNumber(number + 1)
+  const dec = () => setNumber(number - 1)
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-    </View>
+      <Text style={styles.text}>{number}</Text>
+      <Button title='+' color="#fff" onPress={inc}/>
+      <Button title='-' color="#f194ff" onPress={dec}/>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    color: '#fff',
+    fontSize: 36
+  },
+  button: {
+    backgroundColor: '#fff',
+
+  }
 });
