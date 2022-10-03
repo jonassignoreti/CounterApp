@@ -1,29 +1,52 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, SafeAreaView, Button, View, Appearance, useColorScheme } from 'react-native';
+import { StyleSheet, Text, TextInput, SafeAreaView, TouchableOpacity, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   const [ number, setNumber ] = useState(0)
+  const [ red, setRed ] = useState(255)
+  const [ green, setGreen ] = useState(255)
+  const [ blue, setBlue ] = useState(255)
   
-  const inc = () => setNumber(number + 1)
-  const dec = () => setNumber(number - 1)
+  const inc = () => setNumber(Number(number) + 1)
+  const dec = () => setNumber(Number(number) - 1)
   const reset = () => {
     setNumber(0)
+    setRed(Math.floor(Math.random() * 256) + 100)
+    setGreen(Math.floor(Math.random() * 256) + 100)
+    setBlue(Math.floor(Math.random() * 256) + 100)
   }
-
+  
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[{backgroundColor: `rgb(${red}, ${green}, ${blue})`}, styles.container]}>
       <StatusBar />
-      <Text style={styles.text}>{number}</Text>
-      <View style={styles.button}>
-        <Button title='+' onPress={inc}/>
+      <View style={styles.number}> 
+        <TextInput 
+          style={styles.textNumber}
+          onChangeText={setNumber}
+          value={number}
+          placeholder={`${number}`}
+          keyboardType="numeric"
+          cursorColor='#888'
+          />
       </View>
-      <View style={styles.button}>
-        <Button title='-' onPress={dec}/>
+      <View style={styles.lineButton}>
+        <TouchableOpacity style={{width: "50%"}} onPress={dec}>
+          <View style={styles.button}>
+            <Text style={styles.textButton}>-</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={{width: "50%"}} onPress={inc}>
+          <View style={styles.button}>
+            <Text style={styles.textButton}>+</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      <View style={styles.button}>
-        <Button title='RESET' onPress={reset}/>
-      </View>
+      <TouchableOpacity onPress={reset}>
+        <View style={styles.resetButton}>
+          <Text style={styles.textResetButton}>Reset</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -31,18 +54,41 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: (cs === 'dark') ? '#000' : '#fff' ,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
-  text: {
+  number: {
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+  textNumber: {
+    color: '#888888',
+    textAlign: 'center',
+    fontSize: 144,
+  },
+  lineButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },  
+  button: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: '#dddddd',
+    borderRadius: 25
+  },
+  textButton: {
     color: '#888888',
     textAlign: 'center',
     fontSize: 128
   },
-  button: {
+  resetButton: {
     margin: 10,
-    padding: 40,
+    padding: 20,
     backgroundColor: '#dddddd',
-    borderRadius: 10
-  }
+    borderRadius: 25
+  },
+  textResetButton: {
+    color: '#888888',
+    textAlign: 'center',
+    fontSize: 32
+  },
 });
